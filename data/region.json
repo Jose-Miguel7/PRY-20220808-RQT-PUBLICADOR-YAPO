@@ -1,0 +1,62 @@
+[
+  {
+    "id": 15,
+    "region": "Región Metropolitana"
+  },
+  {
+    "id": 1,
+    "region": "XV Arica & Parinacota"
+  },
+  {
+    "id": 2,
+    "region": "I Tarapacá"
+  },
+  {
+    "id": 3,
+    "region": "II Antofagasta"
+  },
+  {
+    "id": 4,
+    "region": "III Atacama"
+  },
+  {
+    "id": 5,
+    "region": "IV Coquimbo"
+  },
+  {
+    "id": 6,
+    "region": "V Valparaíso"
+  },
+  {
+    "id": 7,
+    "region": "VI O'Higgins"
+  },
+  {
+    "id": 8,
+    "region": "VII Maule"
+  },
+  {
+    "id": 9,
+    "region": "VIII Biobío"
+  },
+  {
+    "id": 10,
+    "region": "IX Araucanía"
+  },
+  {
+    "id": 11,
+    "region": "XIV Los Ríos"
+  },
+  {
+    "id": 12,
+    "region": "X Los Lagos"
+  },
+  {
+    "id": 13,
+    "region": "XI Aisén"
+  },
+  {
+    "id": 14,
+    "region": "XII Magallanes & Antártica"
+  }
+]
