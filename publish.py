@@ -102,8 +102,13 @@ def publish(excel, username, password):
             subject = driver.find_element_by_id('subject')
             subject.send_keys(title)
 
-            body = driver.find_element_by_id('body')
-            body.send_keys(description)
+            try:
+                body = driver.find_element_by_id('body')
+                body.send_keys(description)
+            except:
+                time.sleep(3)
+                body = driver.find_element_by_id('body')
+                body.send_keys(description)
 
             price = driver.find_element_by_id('price')
             price.send_keys(price_detail)
