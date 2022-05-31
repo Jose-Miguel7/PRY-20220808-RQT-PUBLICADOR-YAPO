@@ -89,16 +89,17 @@ def publish(excel, username, password):
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'condition')))
                     id_condition_select = Select(driver.find_element_by_id('condition'))
                     id_condition_select.select_by_value(id_condition)
-                elif id_gender != "0":
+                if id_gender != "0":
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'gender')))
                     id_gender_select = Select(driver.find_element_by_id('gender'))
                     id_gender_select.select_by_value(id_gender)
-                elif id_clothing_size != "0":
+                if id_clothing_size != "0":
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'clothing_size')))
                     id_clothing_size_select = Select(driver.find_element_by_id('clothing_size'))
                     id_clothing_size_select.select_by_value(id_clothing_size)
 
             ############################  TITLE - DESCRIPTION - PRICE  ############################
+            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.ID, 'subject')))
             subject = driver.find_element_by_id('subject')
             subject.send_keys(title)
 
@@ -106,7 +107,7 @@ def publish(excel, username, password):
                 body = driver.find_element_by_id('body')
                 body.send_keys(description)
             except:
-                time.sleep(3)
+                WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.ID, 'body')))
                 body = driver.find_element_by_id('body')
                 body.send_keys(description)
 
@@ -130,7 +131,7 @@ def publish(excel, username, password):
             accept_conditions.click()
 
             ############################  UPLOAD  ############################
-            time.sleep(8)
+            time.sleep(5)
             submit_create_now = driver.find_element_by_id('submit_create_now')
             submit_create_now.click()
 

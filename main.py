@@ -16,7 +16,7 @@ def main():
         geometry = '700x550'
 
     config = {
-        'titulo': 'Estados',
+        'titulo': 'PublicadorYapo',
         'geometry': geometry,
         'ampliacion': 0,
         'background': '#FE7C05',

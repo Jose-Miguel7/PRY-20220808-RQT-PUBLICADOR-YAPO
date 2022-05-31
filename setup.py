@@ -3,7 +3,7 @@ from cx_Freeze import setup, Executable
 
 __version__ = "9.0.0"
 
-include_files = ['data', 'test']
+include_files = ['data']
 packages = ["tkinter", "os", "openpyxl", "selenium"]
 # excludes = [""]
 
