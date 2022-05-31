@@ -27,7 +27,7 @@ class Ventana(Tk):
                               font=('Arial', 18, 'bold'), fg='#fff')
                 title.grid(row=0, column=0, sticky=NW, columnspan=5, ipadx=100, ipady=25)
 
-            FrameContenido = config_ventana['frame'](self, self.resolucion)
+            FrameContenido = config_ventana['frame'](self)
             FrameContenido.grid(row=1, column=0, sticky='EWNS', pady=20, padx=30)
 
         else:
@@ -36,7 +36,7 @@ class Ventana(Tk):
                 contenedor.pack()
                 self.canvas = CanvasWindow(contenedor, self, config_ventana['frame'])
             elif config_ventana['expand'] == True:
-                FrameContenido = config_ventana['frame'](self, self.resolucion)
+                FrameContenido = config_ventana['frame'](self)
                 FrameContenido.pack(expand=True)
 
     """

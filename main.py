@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 
-from manage_excel import create_excel_format
+from manage_excel import create_excel_format, update_image_excel
 from publish import publish
 
 
@@ -18,7 +18,7 @@ def main():
     config = {
         'titulo': 'Estados',
         'geometry': geometry,
-        'ampliacion': 1,
+        'ampliacion': 0,
         'background': '#FE7C05',
         'resolucion': resolucion,
         'path_titulo': 'Image/MLTITULO.png',
@@ -36,14 +36,17 @@ def main():
 
 
 class Estados(Frame):
-    def __init__(self, controlador, resolucion):
+    def __init__(self, controlador):
         super().__init__(controlador, bg='white')
         self.controlador = controlador
 
         self.excel = None
+        self.update_excel = None
+        self.carpeta = None
 
         self.directorio_carpeta = StringVar()
         self.directorio_excel = StringVar()
+        self.directorio_update_excel = StringVar()
         self.username = StringVar()
         self.password = StringVar()
 
@@ -67,19 +70,35 @@ class Estados(Frame):
 
         ttk.Separator(self, orient=HORIZONTAL).grid(row=5, column=0, columnspan=10, sticky="EW", pady=20, padx=10, ipadx=200)
 
-        Label(self, text='Formato Excel', font=('Helvetica', 15, 'bold'), bg='white').grid(row=6, column=0, sticky=W, padx=5, pady=10, columnspan=2)
+        Label(self, text='Formato Excel', font=('Helvetica', 11, 'bold'), bg='white').grid(row=6, column=0, sticky=W, padx=5, pady=10, columnspan=2)
         Button(self, text='Generar Plantilla Excel', bg='#A1A1A1', fg='white', bd=0, font=(None, 9), command=create_excel_format).grid(row=6, column=1, padx=140, pady=10, ipady=5, ipadx=5, sticky=W)
 
-        """
         Label(self, text='Seleccionar carpeta que contiene imagenes de los productos', font=('Helvetica', 11, 'bold'), bg='white').grid(row=8, column=0, sticky=W, padx=5, pady=10, columnspan=2)
-        Label(self, text='El nombre de cada imagen debe ser el código del producto respectivo. EJ: RQT-102.jpg', font=('Helvetica', 11), bg='white').grid(row=9, column=0, sticky=W, padx=5, pady=10, columnspan=2)
-        Button(self, command=None, text='Seleccionar carpeta', background="#A1A1A1", fg="#fff", width=20, bd=0, font=(None, 9)).grid(row=10, column=0, padx=5, pady=10, ipady=3, ipadx=3, sticky=W)
+        Label(self, text='El nombre de cada subcarpeta debe ser el código del producto respectivo. EJ: RQT-102', font=('Helvetica', 11), bg='white').grid(row=9, column=0, sticky=W, padx=5, pady=10, columnspan=2)
+        Button(self, command=self.search_directory, text='Seleccionar carpeta', background="#A1A1A1", fg="#fff", width=20, bd=0, font=(None, 9)).grid(row=10, column=0, padx=5, pady=10, ipady=3, ipadx=3, sticky=W)
         Entry(self, width="65", state='readonly', textvariable=self.directorio_carpeta, font=(None, 9), bd=0, bg='#D1D1D1').grid(row=10, column=1, padx=5, pady=10)
 
-        Label(self, text='Seleccionar Excel de datos', font=('Helvetica', 11, 'bold'), bg='white').grid(row=11, column=0, sticky=W, padx=5, pady=10, columnspan=2)
-        Button(self, command=None, text='Seleccionar Excel', bg='#A1A1A1', bd=0, fg="#fff", width=20, font=(None, 9)).grid(row=12, column=0, padx=5, pady=10, ipady=3, ipadx=3, sticky=W)
-        Entry(self, width="65", state='readonly', textvariable=self.directorio_excel, font=(None, 9), bd=0, bg='#D1D1D1').grid(row=12, column=1, padx=5, pady=10)
-        """
+        Label(self, text='Seleccionar Excel con los códigos de los productos', font=('Helvetica', 11, 'bold'), bg='white').grid(row=11, column=0, sticky=W, padx=5, pady=10, columnspan=2)
+        Button(self, command=self.search_excel, text='Seleccionar Excel', bg='#A1A1A1', bd=0, fg="#fff", width=20, font=(None, 9)).grid(row=12, column=0, padx=5, pady=10, ipady=3, ipadx=3, sticky=W)
+        Entry(self, width="65", state='readonly', textvariable=self.directorio_update_excel, font=(None, 9), bd=0, bg='#D1D1D1').grid(row=12, column=1, padx=5, pady=10)
+
+    def search_directory(self):
+        try:
+            self.carpeta = filedialog.askdirectory()
+            self.directorio_carpeta.set(self.carpeta)
+        except AttributeError:
+            pass
+
+    def search_excel(self):
+        try:
+            if self.carpeta:
+                self.update_excel = filedialog.askopenfile(filetypes=[("Excel files", "*.xlsx")]).name
+                self.directorio_update_excel.set(self.update_excel)
+                update_image_excel(self.update_excel, self.carpeta)
+            else:
+                messagebox.showinfo('Info', 'Falta seleccionar la carpeta con las imagenes')
+        except AttributeError:
+            pass
 
     def buscar_excel(self):
         try:

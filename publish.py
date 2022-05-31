@@ -42,19 +42,23 @@ def publish(excel, username, password):
     for rows in ws.iter_rows(min_row=2, min_col=2):
         counter += 1
 
-        category = str(rows[0].value)
-        title = rows[1].value
-        description = rows[2].value
-        price_detail = str(rows[3].value)
-        image1 = rows[4].value
-        image2 = rows[5].value
-        image3 = rows[6].value
-        image4 = rows[7].value
-        image5 = rows[8].value
-        image6 = rows[9].value
-        region_detail = str(rows[10].value)
-        comuna_detail = str(rows[11].value)
-        images = (image2, image3, image4, image5, image6)
+        try:
+            category = str(rows[0].value)
+            title = rows[1].value
+            description = rows[2].value
+            price_detail = str(rows[3].value)
+            image1 = rows[4].value
+            image2 = rows[5].value
+            image3 = rows[6].value
+            image4 = rows[7].value
+            image5 = rows[8].value
+            image6 = rows[9].value
+            region_detail = str(rows[10].value)
+            comuna_detail = str(rows[11].value)
+            images = (image2, image3, image4, image5, image6)
+        except:
+            category, title, description, price_detail, image1, image2, image3 = None, None, None, None, None, None, None
+            image4, image5, image6, region_detail, comuna_detail = None, None, None, None, None
         if image1:
             text_images = image1
             for image in images:
@@ -112,15 +116,16 @@ def publish(excel, username, password):
             communes.select_by_value(comuna_detail)
 
             ############################  IMAGES  ############################
-            images = driver.find_element_by_xpath("//input[@type='file']")
-            images.send_keys(text_images)
+            if text_images:
+                images = driver.find_element_by_xpath("//input[@type='file']")
+                images.send_keys(text_images)
 
             ############################  TERMS  ############################
             accept_conditions = driver.find_elements_by_class_name('iCheck-helper')[0]
             accept_conditions.click()
 
             ############################  UPLOAD  ############################
-            time.sleep(3)
+            time.sleep(8)
             submit_create_now = driver.find_element_by_id('submit_create_now')
             submit_create_now.click()
 
@@ -135,8 +140,15 @@ def publish(excel, username, password):
             except TimeoutException:
                 print("no alert")
 
+            try:
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'submit_create_t_prv')))
+                a = driver.find_element_by_id('submit_create_t_prv')
+                a.click()
+            except TimeoutException:
+                pass
+
             time.sleep(2)
             success += 1
-            
+
     driver.quit()
     return counter, success
