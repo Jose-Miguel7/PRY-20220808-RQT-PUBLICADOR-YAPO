@@ -133,7 +133,10 @@ def publish(excel, username, password):
             ############################  UPLOAD  ############################
             time.sleep(5)
             submit_create_now = driver.find_element_by_id('submit_create_now')
-            submit_create_now.click()
+            try:
+                submit_create_now.click()
+            except Exception as e:
+                print(e)
 
             try:
                 WebDriverWait(driver, 3).until(EC.alert_is_present(),
@@ -147,7 +150,7 @@ def publish(excel, username, password):
                 print("no alert")
 
             try:
-                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'submit_create_t_prv')))
+                WebDriverWait(driver, 7).until(EC.presence_of_element_located((By.ID, 'submit_create_t_prv')))
                 a = driver.find_element_by_id('submit_create_t_prv')
                 a.click()
             except TimeoutException:
